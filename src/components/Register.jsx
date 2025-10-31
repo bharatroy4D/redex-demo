@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../context/features/authApi";
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [register, { isLoading }] = useRegisterMutation();
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  })
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    })
+  }
 
   const handleRegister = (e) => {
     e.preventDefault();
-
-    // ✅ Demo Registration
-    // Normally API call korte hobe. For now, just set token
-    localStorage.setItem("token", "userRegistered");
-    navigate("/"); // Registration success → Home page
-  };
+    try {
+      const res = await register(form).unwrap();
+      alert("Registration is  successful")
+      navigate("/login")
+    }catch (err) {
+      alert("Registration failed")
+    }
+      };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -28,25 +39,30 @@ const Register = () => {
 
         <input
           type="email"
+          name="email"
           placeholder="Enter Email"
+          value={form.email}
           className="w-full border border-gray-400 text-gray-700 outline-none p-2 rounded mb-4"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleChange}
           required
         />
 
         <input
           type="password"
+          name="password"
           placeholder="Enter Password"
+          value={form.password}
           className="w-full border border-gray-400 text-gray-700 outline-none p-2 rounded mb-4"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
           required
         />
 
         <button
           type="submit"
+          disabled = {isLoading}
           className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
         >
-          Register
+          {isLoading ? "Registering...": "Register"}
         </button>
 
         <p className="text-center text-gray-500 mt-4 text-sm">
