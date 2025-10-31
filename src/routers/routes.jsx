@@ -3,6 +3,7 @@ import Main from "../layout/Main";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import PrivateRoute from "../components/PrivateRoute";
 import Dashboard from "../components/Dashboard";
 
 export const routes = createBrowserRouter([
@@ -24,7 +25,7 @@ export const routes = createBrowserRouter([
             },
             {
                 path: "/dashboard",
-                element: <Dashboard />
+                element: <PrivateRoute> <Dashboard /> </PrivateRoute>
             },
         ]
     }

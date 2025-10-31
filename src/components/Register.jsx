@@ -16,16 +16,16 @@ const Register = () => {
     })
   }
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await register(form).unwrap();
+     const res = await register(form).unwrap();
       alert("Registration is  successful")
       navigate("/login")
-    }catch (err) {
+    } catch (err) {
       alert("Registration failed")
     }
-      };
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -59,10 +59,10 @@ const Register = () => {
 
         <button
           type="submit"
-          disabled = {isLoading}
+          disabled={isLoading}
           className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
         >
-          {isLoading ? "Registering...": "Register"}
+          {isLoading ? "Registering..." : "Register"}
         </button>
 
         <p className="text-center text-gray-500 mt-4 text-sm">
