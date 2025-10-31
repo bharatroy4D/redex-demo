@@ -1,12 +1,14 @@
-import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../context/features/AuthSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // remove login token
-    navigate("/login");               // redirect to login
+    dispatch(logout())
+    navigate("/");
   };
 
   return (
@@ -26,7 +28,7 @@ const Dashboard = () => {
 
         {/* Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           <div className="bg-white shadow rounded p-4">
             <h2 className="text-lg font-semibold mb-2">Users</h2>
             <p className="text-gray-500">Total Users: 50</p>

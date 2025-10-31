@@ -18,9 +18,9 @@ const Login = () => {
         e.preventDefault();
         try {
             const res = await login(form).unwrap();
-            dispatch(setCredentials (res))
+            dispatch(setCredentials(res.token))
             navigate("/dashboard");
-        }catch (err){
+        } catch (err) {
             alert("Login is failed")
         }
     };

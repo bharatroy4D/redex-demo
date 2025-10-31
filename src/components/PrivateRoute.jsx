@@ -1,11 +1,9 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom"; // ✅ Import this
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-  const { token } = useSelector((state) => state.auth);
+  const token = useSelector((state) => state.auth.token);
 
-  // ❗ user check দরকার নেই, শুধু token থাকলেই user লগইন করা ধরা হয়
   if (!token) {
     return <Navigate to="/login" replace />;
   }
