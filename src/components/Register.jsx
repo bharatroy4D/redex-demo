@@ -56,6 +56,15 @@ const Register = () => {
           onChange={handleChange}
           required
         />
+        <input
+          type="role"
+          name="role"
+          placeholder="Enter role"
+          value={form.role}
+          className="w-full border border-gray-400 text-gray-700 outline-none p-2 rounded mb-4"
+          onChange={handleChange}
+          required
+        />
 
         <button
           type="submit"

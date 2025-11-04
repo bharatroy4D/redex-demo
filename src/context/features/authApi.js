@@ -9,6 +9,15 @@ export const authApi = baseApi.injectEndpoints({
                 body: data
             })
         }),
+
+        verifyOtp: builder.mutation({
+            query: (data) => ({
+                url: "api/v1/auth/email-verification",
+                method: "POST",
+                body: data,
+            }),
+        }),
+
         login: builder.mutation({
             query: (data) => ({
                 url: "api/v1/auth/signin",
@@ -18,4 +27,4 @@ export const authApi = baseApi.injectEndpoints({
         })
     })
 })
-export const { useRegisterMutation, useLoginMutation } = authApi;
+export const { useRegisterMutation, useVerifyOtpMutation, useLoginMutation } = authApi;
