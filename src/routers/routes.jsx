@@ -5,6 +5,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import PrivateRoute from "../components/PrivateRoute";
 import Dashboard from "../components/Dashboard";
+import VerifyPage from "../components/VerifyPage";
 
 export const routes = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ export const routes = createBrowserRouter([
                 path: "/dashboard",
                 element: <PrivateRoute> <Dashboard /> </PrivateRoute>
             },
+            {
+                path: "/otp",
+                element: <VerifyPage />
+            }
         ]
     }
 ])
