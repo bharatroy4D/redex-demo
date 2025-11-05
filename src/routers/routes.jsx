@@ -5,7 +5,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import PrivateRoute from "../components/PrivateRoute";
 import Dashboard from "../components/Dashboard";
-import VerifyPage from "../components/VerifyPage";
+import OtpVerify from "../components/OtpVerify";
 
 export const routes = createBrowserRouter([
     {
@@ -29,8 +29,8 @@ export const routes = createBrowserRouter([
                 element: <PrivateRoute> <Dashboard /> </PrivateRoute>
             },
             {
-                path: "/otp",
-                element: <VerifyPage />
+                path: "/otpVerify",
+                element: <OtpVerify />
             }
         ]
     }

@@ -8,6 +8,7 @@ const Register = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
+    role: "",
   })
   const handleChange = (e) => {
     setForm({
@@ -16,16 +17,21 @@ const Register = () => {
     })
   }
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-     const res = await register(form).unwrap();
-      alert("Registration is  successful")
-      navigate("/login")
-    } catch (err) {
-      alert("Registration failed")
-    }
-  };
+ const handleRegister = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await register(form).unwrap();
+
+    // ✅ সাইন আপের সময় যে টোকেন backend দেয় সেটাকে localStorage-এ রাখো
+    localStorage.setItem("verifyToken", res?.token);
+
+    alert("OTP sent to your email ✅");
+    navigate("/otpVerify");
+  } catch (err) {
+    alert(err?.data?.message || "Registration failed");
+  }
+};
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

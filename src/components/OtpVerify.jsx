@@ -1,97 +1,56 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useVerifyOtpMutation } from "../context/features/authApi";
 
 const OtpVerify = () => {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
+  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
 
-  // signUpToken localStorage থেকে নিবো (signup response এ পেয়েছিলে)
-  const signUpToken = localStorage.getItem("signUpToken");
 
-  const handleVerify = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!otp) {
-      alert("Please enter OTP");
-      return;
+
+  try {
+    // ✅ backend expects token, NOT signUpToken
+    const result = await verifyOtp({ otp}).unwrap();
+
+    if (result?.status === "OK") {
+          
+      alert("✅ OTP Verified Successfully");
+      navigate("/login");
     }
 
-    try {
-      const res = await fetch("https://yourdomain.com/api/v1/auth/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${signUpToken}`, // token পাঠানো লাগবে
-        },
-        body: JSON.stringify({ otp }),
-      });
+  } catch (error) {
+    console.log(error);
+    alert(error?.data?.message || "Invalid OTP ❌");
+  }
+};
 
-      const data = await res.json();
-      console.log(data);
-
-      if (data.status === "OK") {
-        alert("✅ Verification successful!");
-
-        // Login token save করো (Backend login response এ access token পাঠাবে)
-        localStorage.setItem("accessToken", data.data.accessToken);
-
-        // role ও সংরক্ষণ করো
-        localStorage.setItem("role", data.data.user.role);
-
-        // Dashboard redirect
-        navigate("/dashboard");
-      } else {
-        alert(data.message || "OTP verification failed.");
-      }
-    } catch (error) {
-      console.log(error);
-      alert("Something went wrong!");
-    }
-  };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <div className="flex justify-center items-center h-screen">
       <form
-        onSubmit={handleVerify}
-        style={{
-          padding: "25px",
-          border: "1px solid #ddd",
-          borderRadius: "8px",
-          width: "300px",
-        }}
+        onSubmit={handleSubmit}
+        className="w-[300px] p-6 border rounded-lg shadow"
       >
-        <h3 style={{ textAlign: "center" }}>OTP Verify</h3>
+        <h2 className="text-center text-lg font-semibold">Verify OTP</h2>
+
         <input
           type="text"
           placeholder="Enter OTP"
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "8px",
-            marginTop: "14px",
-            marginBottom: "14px",
-          }}
+          className="w-full border px-3 py-2 mt-4 rounded"
         />
+
         <button
           type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#000",
-            color: "#fff",
-            borderRadius: "4px",
-            border: "none",
-          }}
+          disabled={isLoading}
+          className="w-full bg-black text-white py-2 mt-4 rounded"
         >
-          Verify
+          {isLoading ? "Verifying..." : "Verify OTP"}
         </button>
       </form>
     </div>

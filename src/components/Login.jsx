@@ -8,7 +8,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [login] = useLoginMutation();
-    const [form, setForm] = useState({ email: "", password: "" })
+    const [form, setForm] = useState({ email: "", password: "", role:"" })
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
